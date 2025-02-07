@@ -71,13 +71,13 @@ function FormContainer() {
           onChange={handleChange}
           error={errors.email}
         />
+        <CustomRangeInput value={formData.age} onChange={handleChange} name="age" error={errors.age} />
         <CustomImageInput
           error={errors.file}
           onChange={handleChange}
           fileName={formData.file?.name || null}
           onDelete={handleDeleteFile}
         />
-        <CustomRangeInput value={formData.age} onChange={handleChange} name="age" error={errors.age} />
         <CustomCalenderInput />
         <button type="submit">Send Application</button>
       </form>

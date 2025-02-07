@@ -10,7 +10,7 @@ interface IFileInput {
 
 function CustomImageInput({ error, onChange, fileName, onDelete }: IFileInput) {
   return (
-    <div>
+    <div className="mt-10">
       <label className="flex flex-col text-base text-[#000853]">
         Photo
         <div
