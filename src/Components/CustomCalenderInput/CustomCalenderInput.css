@@ -33,3 +33,14 @@
   border-radius: 1px;
   transform: rotate(90deg);
 }
+@media (max-width: 420px) {
+  .container-calender {
+    display: flex;
+    flex-direction: column;
+  }
+  .container-time {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

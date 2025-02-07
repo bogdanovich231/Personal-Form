@@ -112,7 +112,7 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
     <div className="flex gap-6">
       <div className="">
         <h2 className="text-2xl mb-6 font-medium text-[#000853]">Your workout</h2>
-        <div className="flex justify-between gap-6 ">
+        <div className="container-calender flex justify-between gap-6 ">
           <div className="flex flex-col items-start">
             <h4 className="text-base mb-2 text-[#000853]">Date</h4>
             <div className="p-6 border border-[#CBB6E5] rounded-lg bg-white">
@@ -130,12 +130,12 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
           {availableTimes.length > 0 && (
             <div className="">
               <h4 className="text-base mb-2 text-[#000853]">Time</h4>
-              <div className="flex flex-col gap-2">
+              <div className="container-time flex flex-col gap-2">
                 {availableTimes.map((time) => (
                   <button
                     onClick={() => handleTimeSelect(time)}
                     key={time}
-                    className={`text-base bg-white px-3 py-2 cursor-pointer rounded text-center text-[#000853] ${
+                    className={`text-base bg-white px-3 py-2 cursor-pointer rounded-[8px] text-center text-[#000853] ${
                       selectedTime === time ? 'border-2 border-[#761BE4]' : 'border border-[#CBB6E5]'
                     }`}
                   >

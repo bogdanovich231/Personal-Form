@@ -1,6 +1,7 @@
 import ErrorIcon from '../../assets/error-icon.svg';
 import DeleteIcon from '../../assets/delete-icon.svg';
 import DeleteIconHover from '../../assets/delete-icon-hover.svg';
+import './CustomImageInput.css';
 
 interface IFileInput {
   error: string;
@@ -42,7 +43,7 @@ function CustomImageInput({ error, onChange, fileName, onDelete }: IFileInput) {
               Upload a file
             </label>
           )}
-          {!fileName && <span className="text-[#898DA9]"> or drag and drop here</span>}
+          {!fileName && <span className="span-drop text-[#898DA9]"> or drag and drop here</span>}
         </div>
       </label>
       {error && (

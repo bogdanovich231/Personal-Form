@@ -87,7 +87,7 @@ function FormContainer() {
 
   return (
     <div className="form-container flex flex-col items-center min-h-screen bg-[#F0EAF8] pt-[80px] pb-[80px]">
-      <h2 className="text-2xl font-medium text-[#000853]">Personal info</h2>
+      <h2 className="text-2xl font-medium text-[#000853] mb-8">Personal info</h2>
       <form className="flex flex-col gap-[24px] w-full max-w-[426px]" onSubmit={handleSubmit}>
         <CustomTextInput
           labelName={'First Name'}
