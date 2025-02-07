@@ -1,12 +1,14 @@
 import ErrorIcon from '../../assets/error-icon.svg';
+import DeleteIcon from '../../assets/delete-icon.svg';
 
 interface IFileInput {
   error: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileName: string | null;
+  onDelete: () => void;
 }
 
-function CustomImageInput({ error, onChange, fileName }: IFileInput) {
+function CustomImageInput({ error, onChange, fileName, onDelete }: IFileInput) {
   return (
     <div>
       <label className="flex flex-col text-base text-[#000853]">
@@ -18,9 +20,18 @@ function CustomImageInput({ error, onChange, fileName }: IFileInput) {
           focus:border-2 focus:border-[#761BE4] outline-none shadow-none`}
         >
           <input className="hidden" type="file" name="file" accept="image/*" onChange={onChange} />
-          <label htmlFor="file-upload" className=" cursor-pointer text-[#761BE4] underline">
-            {fileName ? fileName : 'Upload a file'}
-          </label>
+          {fileName ? (
+            <span className="flex gap-[7px] text-[#000853]">
+              {fileName}
+              <button type="button" onClick={onDelete}>
+                <img src={DeleteIcon} alt="delete icon" />
+              </button>
+            </span>
+          ) : (
+            <label htmlFor="file-upload" className="cursor-pointer text-[#761BE4] underline">
+              Upload a file
+            </label>
+          )}
           {!fileName && <span className="text-[#898DA9]"> or drag and drop here</span>}
         </div>
       </label>

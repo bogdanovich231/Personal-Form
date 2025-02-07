@@ -6,7 +6,6 @@ import CustomImageInput from '../CustomImageInput/CustomImageInput';
 function FormContainer() {
   const [formData, setFormData] = useState({ firstname: '', lastname: '', email: '', file: null as File | null });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
@@ -16,13 +15,16 @@ function FormContainer() {
       [name]: type === 'file' ? files?.[0] || null : value,
     }));
 
-    if (type === 'file') {
-      setFileName(files?.[0]?.name || null);
-    }
-
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: '',
+    }));
+  };
+
+  const handleDeleteFile = () => {
+    setFormData((prev) => ({
+      ...prev,
+      file: null,
     }));
   };
 
@@ -61,7 +63,12 @@ function FormContainer() {
           onChange={handleChange}
           error={errors.email}
         />
-        <CustomImageInput error={errors.file} onChange={handleChange} fileName={fileName} />
+        <CustomImageInput
+          error={errors.file}
+          onChange={handleChange}
+          fileName={formData.file?.name || null}
+          onDelete={handleDeleteFile}
+        />
         <button type="submit">Send Application</button>
       </form>
     </div>
