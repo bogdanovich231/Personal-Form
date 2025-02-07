@@ -5,12 +5,17 @@ import { fetchHolidays } from '../../utils/api/holidaysApi';
 import MarkIcon from '../../assets/mark-icon.svg';
 import { generateTime } from '../../utils/generateTime';
 
-function CustomCalenderInput() {
+interface ICustomCalendar {
+  dateSelect: (date: string, time: string | null) => void;
+}
+
+function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
   const currentDate = new Date();
   const [month, setMonth] = useState(currentDate.getMonth() + 1);
   const [year] = useState(2024);
   const [holidays, setHolidays] = useState<{ date: string; type: string; name: string }[]>([]);
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [holidayInfo, setHolidayInfo] = useState<string | null>(null);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
 
@@ -72,6 +77,7 @@ function CustomCalenderInput() {
           onClick={() => {
             if (!isDisabled) {
               setSelectedDate(i);
+              dateSelect(`${i}-${month}-${year}`, null);
               setAvailableTimes(generateTime(i, month, year, holidays));
             } else {
               setAvailableTimes([]);
@@ -90,6 +96,16 @@ function CustomCalenderInput() {
     }
 
     return days;
+  };
+
+  const handleTimeSelect = (time: string) => {
+    setSelectedTime(time);
+    if (selectedDate !== null) {
+      const day = selectedDate < 10 ? `0${selectedDate}` : `${selectedDate}`;
+      const monthFormatted = month < 10 ? `0${month}` : `${month}`;
+      const formattedDate = `${day}-${monthFormatted}-${year}`;
+      dateSelect(formattedDate, time);
+    }
   };
 
   return (
@@ -117,9 +133,11 @@ function CustomCalenderInput() {
               <div className="flex flex-col gap-2">
                 {availableTimes.map((time) => (
                   <button
+                    onClick={() => handleTimeSelect(time)}
                     key={time}
-                    className="text-base bg-white px-3 py-2 cursor-pointer rounded border border-[#CBB6E5] text-center text-[#000853] focus:border-2 
-                    focus:border-[#761BE4] outline-none shadow-none"
+                    className={`text-base bg-white px-3 py-2 cursor-pointer rounded text-center text-[#000853] ${
+                      selectedTime === time ? 'border-2 border-[#761BE4]' : 'border border-[#CBB6E5]'
+                    }`}
                   >
                     {time}
                   </button>

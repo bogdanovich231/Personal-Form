@@ -4,6 +4,8 @@ interface IFormData {
   email: string;
   file: File | null;
   age: number;
+  calendarDate: string | null;
+  calendarTime: string | null;
 }
 
 interface IValidation {
@@ -57,6 +59,16 @@ export const validation = (formData: IFormData): IValidation => {
 
   if (formData.age < 14) {
     errors.age = 'Age must be at least 14 years old.';
+    isValid = false;
+  }
+
+  if (!formData.calendarDate) {
+    errors.calendarDate = 'Please select a date.';
+    isValid = false;
+  }
+
+  if (!formData.calendarTime) {
+    errors.calendarTime = 'Please select a time.';
     isValid = false;
   }
 

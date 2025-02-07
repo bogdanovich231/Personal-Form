@@ -12,6 +12,8 @@ function FormContainer() {
     email: '',
     file: null as File | null,
     age: 8,
+    calendarDate: null as string | null,
+    calendarTime: null as string | null,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -41,6 +43,23 @@ function FormContainer() {
       ...prev,
       file: null,
     }));
+  };
+
+  const handleDateSelect = (selectedDate: string, selectedTime: string | null) => {
+    setFormData((prev) => ({
+      ...prev,
+      calendarDate: selectedDate,
+      calendarTime: selectedTime,
+    }));
+
+    const validationForm = validation({
+      ...formData,
+      calendarDate: selectedDate,
+      calendarTime: selectedTime,
+    });
+
+    setErrors(validationForm.errors);
+    setIsFormValid(validationForm.isValid);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,7 +104,7 @@ function FormContainer() {
           fileName={formData.file?.name || null}
           onDelete={handleDeleteFile}
         />
-        <CustomCalenderInput />
+        <CustomCalenderInput dateSelect={handleDateSelect} />
         <button
           type="submit"
           className={`text-lg text-white p-2.5 rounded-[4px] cursor-pointer hover:bg-[#6A19CD] duration-300 ease-linear ${isFormValid ? 'bg-[#6A19CD]' : 'bg-[#CBB6E5]'}`}
