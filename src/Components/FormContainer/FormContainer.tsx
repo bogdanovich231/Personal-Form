@@ -14,6 +14,7 @@ function FormContainer() {
     age: 8,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
@@ -23,12 +24,18 @@ function FormContainer() {
       [name]: type === 'file' ? files?.[0] || null : type === 'range' ? Number(value) : value,
     }));
 
+    const validationForm = validation({
+      ...formData,
+      [name]: type === 'file' ? files?.[0] || null : type === 'range' ? Number(value) : value,
+    });
+
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: '',
+      [name]: validationForm.errors[name] || '',
     }));
-  };
 
+    setIsFormValid(validationForm.isValid);
+  };
   const handleDeleteFile = () => {
     setFormData((prev) => ({
       ...prev,
@@ -79,7 +86,9 @@ function FormContainer() {
           onDelete={handleDeleteFile}
         />
         <CustomCalenderInput />
-        <button type="submit">Send Application</button>
+        <button type="submit" className="text-lg text-white bg-[#CBB6E5] p-2.5 rounded-[4px] " disabled={!isFormValid}>
+          Send Application
+        </button>
       </form>
     </div>
   );
