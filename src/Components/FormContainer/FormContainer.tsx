@@ -76,7 +76,7 @@ function FormContainer() {
           fileName={formData.file?.name || null}
           onDelete={handleDeleteFile}
         />
-        <CustomRangeInput value={formData.age} onChange={handleChange} name="age" />
+        <CustomRangeInput value={formData.age} onChange={handleChange} name="age" error={errors.age} />
         <button type="submit">Send Application</button>
       </form>
     </div>

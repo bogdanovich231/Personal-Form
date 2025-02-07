@@ -1,14 +1,16 @@
 import { getBackground } from '../../utils/getBackground';
 import { getPosition } from '../../utils/getPosition';
+import ErrorIcon from '../../assets/error-icon.svg';
 import './CustomRangeInput.css';
 
 interface IRangeInput {
   value: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
+  error?: string;
 }
 
-function CustomRangeInput({ value, onChange, name }: IRangeInput) {
+function CustomRangeInput({ value, onChange, name, error }: IRangeInput) {
   return (
     <div className="relative w-full">
       <label className="flex flex-col text-base text-[#000853]">
@@ -44,6 +46,12 @@ function CustomRangeInput({ value, onChange, name }: IRangeInput) {
           </span>
         </div>
       </label>
+      {error && (
+        <span className="flex align-center gap-[10px] mt-[45px] text-sm text-[#000853]">
+          <img src={ErrorIcon} alt="error icon" />
+          {error}
+        </span>
+      )}
     </div>
   );
 }

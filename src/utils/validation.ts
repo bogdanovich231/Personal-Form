@@ -3,6 +3,7 @@ interface IFormData {
   lastname: string;
   email: string;
   file: File | null;
+  age: number;
 }
 
 interface IValidation {
@@ -52,6 +53,11 @@ export const validation = (formData: IFormData): IValidation => {
       errors.file = 'File size should not exceed 5MB.';
       isValid = false;
     }
+  }
+
+  if (formData.age < 14) {
+    errors.age = 'Age must be at least 14 years old.';
+    isValid = false;
   }
 
   return { isValid, errors };
