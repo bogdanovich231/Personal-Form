@@ -2,9 +2,16 @@ import { useState } from 'react';
 import CustomTextInput from '../CustomTextInput/CustomTextInput';
 import { validation } from '../../utils/validation';
 import CustomImageInput from '../CustomImageInput/CustomImageInput';
+import CustomRangeInput from '../CustomRangeInput/CustomRangeInput';
 
 function FormContainer() {
-  const [formData, setFormData] = useState({ firstname: '', lastname: '', email: '', file: null as File | null });
+  const [formData, setFormData] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    file: null as File | null,
+    age: 8,
+  });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +19,7 @@ function FormContainer() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'file' ? files?.[0] || null : value,
+      [name]: type === 'file' ? files?.[0] || null : type === 'range' ? Number(value) : value,
     }));
 
     setErrors((prevErrors) => ({
@@ -69,6 +76,7 @@ function FormContainer() {
           fileName={formData.file?.name || null}
           onDelete={handleDeleteFile}
         />
+        <CustomRangeInput value={formData.age} onChange={handleChange} name="age" />
         <button type="submit">Send Application</button>
       </form>
     </div>
