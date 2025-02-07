@@ -3,6 +3,7 @@ import CustomTextInput from '../CustomTextInput/CustomTextInput';
 import { validation } from '../../utils/validation';
 import CustomImageInput from '../CustomImageInput/CustomImageInput';
 import CustomRangeInput from '../CustomRangeInput/CustomRangeInput';
+import CustomCalenderInput from '../CustomCalenderInput/CustomCalenderInput';
 
 function FormContainer() {
   const [formData, setFormData] = useState({
@@ -77,6 +78,7 @@ function FormContainer() {
           onDelete={handleDeleteFile}
         />
         <CustomRangeInput value={formData.age} onChange={handleChange} name="age" error={errors.age} />
+        <CustomCalenderInput />
         <button type="submit">Send Application</button>
       </form>
     </div>

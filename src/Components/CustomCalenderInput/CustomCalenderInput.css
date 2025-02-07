@@ -1,0 +1,35 @@
+.button-prev,
+.button-next {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.button-prev:before {
+  position: absolute;
+  content: '';
+  height: 0;
+  width: 0;
+  border-bottom: 9px solid #cbb6e5;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-radius: 1px;
+  transform: rotate(-90deg);
+}
+
+.button-next:before {
+  position: absolute;
+  content: '';
+  height: 0;
+  width: 0;
+  border-bottom: 9px solid #cbb6e5;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-radius: 1px;
+  transform: rotate(90deg);
+}
