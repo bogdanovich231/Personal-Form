@@ -1,0 +1,10 @@
+.number:before {
+  position: absolute;
+  content: '';
+  height: 0;
+  width: 0;
+  border-bottom: 8px solid white;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  top: -8px;
+}
