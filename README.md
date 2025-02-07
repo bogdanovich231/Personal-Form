@@ -13,4 +13,4 @@ Personal Form Application was created as part of an interwie. The goal of the pr
  + Holidays API
 
 ### Demo 
-(Personal Form)[https://personal-form-interview.netlify.app/]
+[Personal Form](https://personal-form-interview.netlify.app/)
