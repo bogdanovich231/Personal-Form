@@ -3,7 +3,7 @@
 
 ### Project Description
 
-Personal Form Application was created as part of an interwie. The goal of the project was to create a form with different data and validation using React, Typescript, Tailwind CSS.
+Personal Form Application was created as part of an interview. The goal of the project was to create a form with different data and validation using React, Typescript, Tailwind CSS.
 
 ### Technology Stack
 
