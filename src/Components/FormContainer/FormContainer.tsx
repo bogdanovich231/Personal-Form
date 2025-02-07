@@ -86,7 +86,11 @@ function FormContainer() {
           onDelete={handleDeleteFile}
         />
         <CustomCalenderInput />
-        <button type="submit" className="text-lg text-white bg-[#CBB6E5] p-2.5 rounded-[4px] " disabled={!isFormValid}>
+        <button
+          type="submit"
+          className={`text-lg text-white p-2.5 rounded-[4px] cursor-pointer hover:bg-[#6A19CD] duration-300 ease-linear ${isFormValid ? 'bg-[#6A19CD]' : 'bg-[#CBB6E5]'}`}
+          disabled={!isFormValid}
+        >
           Send Application
         </button>
       </form>
