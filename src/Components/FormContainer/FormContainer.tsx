@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import CustomTextInput from '../CustomTextInput/CustomTextInput';
 import { validation } from '../../utils/validation';
+import CustomImageInput from '../CustomImageInput/CustomImageInput';
 
 function FormContainer() {
-  const [formData, setFormData] = useState({ firstname: '', lastname: '', email: '' });
+  const [formData, setFormData] = useState({ firstname: '', lastname: '', email: '', file: null as File | null });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === 'file' ? files?.[0] || null : value,
     }));
+
+    if (type === 'file') {
+      setFileName(files?.[0]?.name || null);
+    }
 
     setErrors((prevErrors) => ({
       ...prevErrors,
@@ -55,6 +61,7 @@ function FormContainer() {
           onChange={handleChange}
           error={errors.email}
         />
+        <CustomImageInput error={errors.file} onChange={handleChange} fileName={fileName} />
         <button type="submit">Send Application</button>
       </form>
     </div>
