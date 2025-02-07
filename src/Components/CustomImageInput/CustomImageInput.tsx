@@ -1,5 +1,6 @@
 import ErrorIcon from '../../assets/error-icon.svg';
 import DeleteIcon from '../../assets/delete-icon.svg';
+import DeleteIconHover from '../../assets/delete-icon-hover.svg';
 
 interface IFileInput {
   error: string;
@@ -23,8 +24,17 @@ function CustomImageInput({ error, onChange, fileName, onDelete }: IFileInput) {
           {fileName ? (
             <span className="flex gap-[7px] text-[#000853]">
               {fileName}
-              <button type="button" onClick={onDelete}>
-                <img src={DeleteIcon} alt="delete icon" />
+              <button type="button" className="cursor-pointer relative inline-block group" onClick={onDelete}>
+                <img
+                  src={DeleteIcon}
+                  alt="delete icon"
+                  className=" w-6 h-6 transition-opacity duration-300 ease-in-out group-hover:opacity-0"
+                />
+                <img
+                  src={DeleteIconHover}
+                  alt="delete icon"
+                  className="absolute top-0 left-0 w-6 h-6 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
+                />
               </button>
             </span>
           ) : (

@@ -73,7 +73,7 @@ function FormContainer() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-[#F0EAF8]">
+    <div className="flex flex-col items-center min-h-screen bg-[#F0EAF8] pt-[80px] pb-[80px]">
       <h2 className="text-2xl font-medium text-[#000853]">Personal info</h2>
       <form className="flex flex-col gap-[24px] w-full max-w-[426px]" onSubmit={handleSubmit}>
         <CustomTextInput
@@ -107,7 +107,7 @@ function FormContainer() {
         <CustomCalenderInput dateSelect={handleDateSelect} />
         <button
           type="submit"
-          className={`text-lg text-white p-2.5 rounded-[4px] cursor-pointer hover:bg-[#6A19CD] duration-300 ease-linear ${isFormValid ? 'bg-[#6A19CD]' : 'bg-[#CBB6E5]'}`}
+          className={`text-lg text-white p-2.5 rounded-[4px] cursor-pointer mt-10 hover:bg-[#6A19CD] duration-300 ease-linear ${isFormValid ? 'bg-[#6A19CD]' : 'bg-[#CBB6E5]'}`}
           disabled={!isFormValid}
         >
           Send Application
