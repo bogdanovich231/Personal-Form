@@ -60,7 +60,7 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
       const isObservanceHoliday = selectedHoliday?.type === 'OBSERVANCE';
       const isSelectedDate = selectedDate === i;
 
-      const isDisabled = isSunday || isNationalHoliday || isObservanceHoliday;
+      const isDisabled = isSunday || isNationalHoliday;
 
       days.push(
         <div
@@ -68,9 +68,9 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
           className={`text-center p-2 cursor-pointer rounded-full w-8 h-8 flex justify-center items-center m-0.5 ${
             isSelectedDate
               ? 'bg-[#761BE4] text-white'
-              : isNationalHoliday || isSunday
+              : isDisabled
                 ? 'text-[#898DA9] cursor-not-allowed pointer-events-none'
-                : isDisabled
+                : isDisabled || isObservanceHoliday
                   ? 'text-[#898DA9]'
                   : 'bg-transparent text-[#000853] text-base font-medium'
           }`}

@@ -4,6 +4,8 @@ import { validation } from '../../utils/validation';
 import CustomImageInput from '../CustomImageInput/CustomImageInput';
 import CustomRangeInput from '../CustomRangeInput/CustomRangeInput';
 import CustomCalenderInput from '../CustomCalenderInput/CustomCalenderInput';
+import { submitData } from '../../utils/api/submitApi';
+import './FormContainer.css';
 
 function FormContainer() {
   const [formData, setFormData] = useState({
@@ -17,6 +19,7 @@ function FormContainer() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
@@ -64,16 +67,26 @@ function FormContainer() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validationForm = validation(formData);
-    if (validationForm.isValid) {
-      console.log('Data:', formData);
-    } else {
-      setErrors(validationForm.errors);
+    const formDataToSubmit = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value instanceof File) {
+        formDataToSubmit.append(key, value);
+      } else {
+        formDataToSubmit.append(key, String(value));
+      }
+    });
+
+    try {
+      const result = await submitData(formDataToSubmit);
+      console.log('Server response:', result);
+    } catch (error) {
+      console.error('Error sending data:', error);
     }
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-[#F0EAF8] pt-[80px] pb-[80px]">
+    <div className="form-container flex flex-col items-center min-h-screen bg-[#F0EAF8] pt-[80px] pb-[80px]">
       <h2 className="text-2xl font-medium text-[#000853]">Personal info</h2>
       <form className="flex flex-col gap-[24px] w-full max-w-[426px]" onSubmit={handleSubmit}>
         <CustomTextInput
@@ -108,11 +121,12 @@ function FormContainer() {
         <button
           type="submit"
           className={`text-lg text-white p-2.5 rounded-[4px] cursor-pointer mt-10 hover:bg-[#6A19CD] duration-300 ease-linear ${isFormValid ? 'bg-[#6A19CD]' : 'bg-[#CBB6E5]'}`}
-          disabled={!isFormValid}
+          disabled={!isFormValid || isSubmitting}
         >
           Send Application
         </button>
       </form>
+      {isSubmitting && <p className="mt-4 text-lg text-[#000853]">Form is submitted</p>}
     </div>
   );
 }
