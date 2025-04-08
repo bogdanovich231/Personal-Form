@@ -1,3 +1,13 @@
+interface IFormData {
+  firstname: string;
+  lastname: string;
+  email: string;
+  file: File | null;
+  age: number;
+  calendarDate: string | null;
+  calendarTime: string | null;
+}
+
 export const validateName = (name: string, field: 'firstname' | 'lastname'): string => {
   if (!name) return `${field === 'firstname' ? 'First' : 'Last'} Name is required.`;
   if (name[0] !== name[0].toUpperCase())
@@ -33,4 +43,26 @@ export const validateCalendar = (date: string | null, time: string | null): Reco
   if (!date) errors.calendarDate = 'Please select a date.';
   if (!time) errors.calendarTime = 'Please select a time.';
   return errors;
+};
+
+export const validateField = (name: string, value: string | number | File | null, formData: IFormData): string => {
+  switch (name) {
+    case 'firstname':
+    case 'lastname':
+      return validateName(value as string, name);
+    case 'email':
+      return validateEmail(value as string);
+    case 'file':
+      return validateFile(value as File | null);
+    case 'age':
+      return validateAge(value as number);
+    case 'calendarDate':
+    case 'calendarTime':
+      return validateCalendar(
+        name === 'calendarDate' ? (value as string | null) : formData.calendarDate,
+        name === 'calendarTime' ? (value as string | null) : formData.calendarTime
+      )[name];
+    default:
+      return '';
+  }
 };
