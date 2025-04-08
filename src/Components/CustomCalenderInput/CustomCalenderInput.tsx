@@ -12,7 +12,7 @@ interface ICustomCalendar {
 function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
   const currentDate = new Date();
   const [month, setMonth] = useState(currentDate.getMonth() + 1);
-  const [year] = useState(2024);
+  const [year] = useState(2025);
   const [holidays, setHolidays] = useState<{ date: string; type: string; name: string }[]>([]);
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -22,7 +22,7 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
   useEffect(() => {
     const fetchAndSetHolidays = async () => {
       try {
-        const holidayData = await fetchHolidays('PL', year);
+        const holidayData = await fetchHolidays('PL');
         setHolidays(holidayData);
       } catch (err) {
         console.error('Error during loading of holidays');
@@ -57,10 +57,9 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
 
       const isNationalHoliday = selectedHoliday?.type === 'NATIONAL_HOLIDAY';
       const isSunday = new Date(year, month - 1, i).getDay() === 0;
+      const isDisabled = isSunday || isNationalHoliday;
       const isObservanceHoliday = selectedHoliday?.type === 'OBSERVANCE';
       const isSelectedDate = selectedDate === i;
-
-      const isDisabled = isSunday || isNationalHoliday;
 
       days.push(
         <div
@@ -133,6 +132,7 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
               <div className="container-time flex flex-col gap-2">
                 {availableTimes.map((time) => (
                   <button
+                    type="button"
                     onClick={() => handleTimeSelect(time)}
                     key={time}
                     className={`text-base bg-white px-3 py-2 cursor-pointer rounded-[8px] text-center text-[#000853] ${
