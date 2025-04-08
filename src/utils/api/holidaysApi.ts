@@ -1,6 +1,6 @@
-export const fetchHolidays = async (country: string, year: number) => {
-  const apiKey = '8DX8eEe67njS1lbThFsdSw==rQQNpQ8PYbPZBjrx';
-  const url = `https://api.api-ninjas.com/v1/holidays?country=${country}&year=${year}`;
+export const fetchHolidays = async (country: string) => {
+  const apiKey = import.meta.env.VITE_API_KEY;
+  const url = `https://api.api-ninjas.com/v1/holidays?country=${country}`;
 
   try {
     const response = await fetch(url, {
