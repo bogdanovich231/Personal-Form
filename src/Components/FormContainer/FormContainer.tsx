@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CustomTextInput from '../CustomTextInput/CustomTextInput';
-import { validation } from '../../utils/validation';
+import { validateField } from '../../utils/validation';
 import CustomImageInput from '../CustomImageInput/CustomImageInput';
 import CustomRangeInput from '../CustomRangeInput/CustomRangeInput';
 import CustomCalenderInput from '../CustomCalenderInput/CustomCalenderInput';
@@ -19,56 +19,48 @@ function FormContainer() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const updateFormData = (name: string, value: string | number | File | null) => {
+    setFormData((prev) => {
+      const updatedFormData = { ...prev, [name]: value };
+
+      const fieldError = validateField(name, value, updatedFormData);
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: fieldError }));
+
+      const allErrors = {
+        ...errors,
+        [name]: fieldError,
+      };
+      const isValid =
+        Object.values(allErrors).every((error) => !error) &&
+        Object.values(updatedFormData).every((field) => field !== null && field !== '');
+      setIsFormValid(isValid);
+
+      return updatedFormData;
+    });
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, files } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'file' ? files?.[0] || null : type === 'range' ? Number(value) : value,
-    }));
-
-    const validationForm = validation({
-      ...formData,
-      [name]: type === 'file' ? files?.[0] || null : type === 'range' ? Number(value) : value,
-    });
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: validationForm.errors[name] || '',
-    }));
-
-    setIsFormValid(validationForm.isValid);
-  };
-  const handleDeleteFile = () => {
-    setFormData((prev) => ({
-      ...prev,
-      file: null,
-    }));
+    const { name, value, type } = e.target;
+    const newValue = type === 'range' ? Number(value) : value;
+    updateFormData(name, newValue);
   };
 
-  const handleDateSelect = (selectedDate: string, selectedTime: string | null) => {
-    setFormData((prev) => ({
-      ...prev,
-      calendarDate: selectedDate,
-      calendarTime: selectedTime,
-    }));
+  const handleFileChange = (file: File | null) => {
+    updateFormData('file', file);
+  };
 
-    const validationForm = validation({
-      ...formData,
-      calendarDate: selectedDate,
-      calendarTime: selectedTime,
-    });
-
-    setErrors(validationForm.errors);
-    setIsFormValid(validationForm.isValid);
+  const handleDateSelect = (date: string, time: string | null) => {
+    updateFormData('calendarDate', date);
+    updateFormData('calendarTime', time);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formDataToSubmit = new FormData();
+    if (!isFormValid) return;
 
+    const formDataToSubmit = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       if (value instanceof File) {
         formDataToSubmit.append(key, value);
@@ -77,11 +69,14 @@ function FormContainer() {
       }
     });
 
+    setIsSubmitting(true);
     try {
       const result = await submitData(formDataToSubmit);
       console.log('Server response:', result);
     } catch (error) {
       console.error('Error sending data:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -113,9 +108,9 @@ function FormContainer() {
         <CustomRangeInput value={formData.age} onChange={handleChange} name="age" error={errors.age} />
         <CustomImageInput
           error={errors.file}
-          onChange={handleChange}
+          onChange={handleFileChange}
           fileName={formData.file?.name || null}
-          onDelete={handleDeleteFile}
+          onDelete={() => handleFileChange(null)}
         />
         <CustomCalenderInput dateSelect={handleDateSelect} />
         <button
