@@ -73,6 +73,17 @@ function FormContainer() {
     try {
       const result = await submitData(formDataToSubmit);
       console.log('Server response:', result);
+      setFormData({
+        firstname: '',
+        lastname: '',
+        email: '',
+        file: null,
+        age: 8,
+        calendarDate: null,
+        calendarTime: null,
+      });
+      setErrors({});
+      setIsFormValid(false);
     } catch (error) {
       console.error('Error sending data:', error);
     } finally {
