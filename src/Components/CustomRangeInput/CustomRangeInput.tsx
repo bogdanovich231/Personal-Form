@@ -38,7 +38,7 @@ function CustomRangeInput({ value, onChange, name, error }: IRangeInput) {
             className="number absolute text-[#761BE4] bg-white rounded h-6 w-9 flex align-center justify-center font-medium text-xs pt-1 mt-2"
             style={{
               left: getPosition(value),
-              transform: 'translateX(5px)',
+              transform: 'translate(-50%)',
               top: '30px',
             }}
           >
