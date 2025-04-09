@@ -7,15 +7,17 @@ import { generateTime } from '../../utils/generateTime';
 
 interface ICustomCalendar {
   dateSelect: (date: string, time: string | null) => void;
+  selectedDate: string | null;
+  selectedTime: string | null;
 }
 
-function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
+function CustomCalenderInput({ dateSelect, selectedDate, selectedTime }: ICustomCalendar) {
   const currentDate = new Date();
   const [month, setMonth] = useState(currentDate.getMonth() + 1);
   const [year] = useState(2025);
   const [holidays, setHolidays] = useState<{ date: string; type: string; name: string }[]>([]);
-  const [selectedDate, setSelectedDate] = useState<number | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [localSelectedDate, setSelectedDate] = useState<number | null>(null);
+  const [localSelectedTime, setSelectedTime] = useState<string | null>(null);
   const [holidayInfo, setHolidayInfo] = useState<string | null>(null);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
 
@@ -31,6 +33,16 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
 
     fetchAndSetHolidays();
   }, []);
+
+  useEffect(() => {
+    if (selectedDate === null) {
+      setSelectedDate(null);
+      setAvailableTimes([]);
+    }
+    if (selectedTime === null) {
+      setSelectedTime(null);
+    }
+  }, [selectedDate, selectedTime]);
 
   const renderWeekDays = () => {
     const daysOfWeek = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
@@ -59,7 +71,7 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
       const isSunday = new Date(year, month - 1, i).getDay() === 0;
       const isDisabled = isSunday || isNationalHoliday;
       const isObservanceHoliday = selectedHoliday?.type === 'OBSERVANCE';
-      const isSelectedDate = selectedDate === i;
+      const isSelectedDate = localSelectedDate === i;
 
       days.push(
         <div
@@ -99,8 +111,8 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
 
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time);
-    if (selectedDate !== null) {
-      const day = selectedDate < 10 ? `0${selectedDate}` : `${selectedDate}`;
+    if (localSelectedDate !== null) {
+      const day = localSelectedDate < 10 ? `0${localSelectedDate}` : `${localSelectedDate}`;
       const monthFormatted = month < 10 ? `0${month}` : `${month}`;
       const formattedDate = `${day}-${monthFormatted}-${year}`;
       dateSelect(formattedDate, time);
@@ -136,7 +148,7 @@ function CustomCalenderInput({ dateSelect }: ICustomCalendar) {
                     onClick={() => handleTimeSelect(time)}
                     key={time}
                     className={`text-base bg-white px-3 py-2 cursor-pointer rounded-[8px] text-center text-[#000853] ${
-                      selectedTime === time ? 'border-2 border-[#761BE4]' : 'border border-[#CBB6E5]'
+                      localSelectedTime === time ? 'border-2 border-[#761BE4]' : 'border border-[#CBB6E5]'
                     }`}
                   >
                     {time}

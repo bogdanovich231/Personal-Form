@@ -122,7 +122,11 @@ function FormContainer() {
           fileName={formData.file?.name || null}
           onDelete={() => handleFileChange(null)}
         />
-        <CustomCalenderInput dateSelect={handleDateSelect} />
+        <CustomCalenderInput
+          dateSelect={handleDateSelect}
+          selectedDate={formData.calendarDate}
+          selectedTime={formData.calendarTime}
+        />
         <button
           type="submit"
           className={`text-lg text-white p-2.5 rounded-[4px] cursor-pointer mt-10 hover:bg-[#6A19CD] duration-300 ease-linear ${isFormValid ? 'bg-[#6A19CD]' : 'bg-[#CBB6E5]'}`}
