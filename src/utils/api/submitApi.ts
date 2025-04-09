@@ -1,8 +1,10 @@
-export const submitData = async (formData: FormData) => {
+import { IFormData } from '../validation';
+
+export const submitData = async (formData: IFormData) => {
   try {
     const response = await fetch('http://letsworkout.pl/submit', {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(formData),
     });
 
     if (!response.ok) {
