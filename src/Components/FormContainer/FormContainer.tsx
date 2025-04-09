@@ -6,6 +6,7 @@ import CustomRangeInput from '../CustomRangeInput/CustomRangeInput';
 import CustomCalenderInput from '../CustomCalenderInput/CustomCalenderInput';
 import { submitData } from '../../utils/api/submitApi';
 import './FormContainer.css';
+import { convertFile } from '../../utils/convertFile';
 
 function FormContainer() {
   const [formData, setFormData] = useState({
@@ -60,18 +61,16 @@ function FormContainer() {
     e.preventDefault();
     if (!isFormValid) return;
 
-    const formDataToSubmit = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value instanceof File) {
-        formDataToSubmit.append(key, value);
-      } else {
-        formDataToSubmit.append(key, String(value));
-      }
-    });
-
     setIsSubmitting(true);
     try {
-      const result = await submitData(formDataToSubmit);
+      const fileBase64 = formData.file ? await convertFile(formData.file) : null;
+
+      const dataToSubmit = {
+        ...formData,
+        file: fileBase64,
+      };
+
+      const result = await submitData(dataToSubmit);
       console.log('Server response:', result);
       setFormData({
         firstname: '',

@@ -2,7 +2,7 @@ export interface IFormData {
   firstname: string;
   lastname: string;
   email: string;
-  file: File | null;
+  file: string | File | null;
   age: number;
   calendarDate: string | null;
   calendarTime: string | null;

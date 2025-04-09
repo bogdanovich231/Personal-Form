@@ -4,6 +4,9 @@ export const submitData = async (formData: IFormData) => {
   try {
     const response = await fetch('http://letsworkout.pl/submit', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(formData),
     });
 
